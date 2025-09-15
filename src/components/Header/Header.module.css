@@ -1,0 +1,172 @@
+.header {
+  background: #131921;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Group logo + delivery */
+.logoDelivery {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  width: auto;
+  
+}
+
+/* Top bar */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Logo */
+.logo img {
+  height: 40px;
+  object-fit: contain;
+  cursor: pointer;
+}
+.logo a:hover {
+  background: #37475a;
+  border-radius: 8px;
+}
+
+/* Delivery */
+.delivery {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #ddd;
+  font-size: 12px;
+  line-height: 1.2;
+}
+.delivery span {
+  font-weight: 600;
+  color: #fff;
+}
+.delivery:hover {
+  border: 1px solid #fff;
+}
+
+/* Search */
+.search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  max-width: 900px;
+}
+.search select {
+  padding: 9.9px;
+  
+  border: none;
+  border-radius: 1px 0 0 4px;
+  /* background: #f3f3f3; */
+    background: #febd69;
+
+}
+.searchInput {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  color: #febd69;
+}
+.searchBtn {
+  padding: 6px 12px;
+  background: #febd69;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.searchBtn:hover {
+  background: #f8c684;
+  color: #fff;
+}
+.searchInput:focus {
+  border: 1px solid #f8c684;
+  outline: none;
+}
+.search:focus-within {
+  border: 1px solid #ebc088;
+}
+
+/* Right side */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.right a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+}
+.account,
+.orders {
+  line-height: 1.2;
+}
+.right a:hover {
+  border: 1px solid #fff;
+}
+.cart {
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* Language selector */
+.lang {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lang img {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+.lang:hover {
+  border: 1px solid #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .topBar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Row 1: logo + delivery side by side */
+  .logoDelivery {
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  /* Row 2: search full width */
+  .search {
+    order: 2;
+    width: 100%;
+    margin: 6px 0;
+  }
+
+  /* Row 3: right section */
+  .right {
+    order: 3;
+    justify-content: space-around;
+    width: 100%;
+  }
+}

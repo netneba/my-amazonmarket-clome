@@ -1,0 +1,77 @@
+/* Nav container */
+.nav {
+  background: #232f3e;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Hamburger button */
+.hammenu {
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+}
+
+.hammenu:hover {
+  background: #37475a;
+  border-radius: 2px;
+}
+
+/* Menu list */
+.menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 2px 8px;
+  transition: background 0.2s ease;
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+.menu li a:hover {
+  background: #37475a;
+}
+
+/* ✅ Responsive styles */
+@media (max-width: 768px) {
+  .menu {
+    display: none;              
+    flex-direction: column;  
+      gap: 15px;
+
+      
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .menu.active {
+    display: flex;             
+  }
+
+  .menu li {
+    width: 100%;
+  }
+.nav{display: block;}
+  .menu li a {
+    width: 100%;
+    padding: 10px 12px;
+    text-align: left;
+  }
+}
