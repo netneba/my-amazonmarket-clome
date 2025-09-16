@@ -4,6 +4,8 @@ import './App.css'
 import Header from './components/Header/Header.jsx'
 import Lowerheader from './components/Header/Lowerheader.jsx' 
 import AmCarousel from './components/Carousel/AmCarousel.jsx'
+import Category from './components/Categories/Category.jsx'
+
 
 function App() {
   return (
@@ -11,7 +13,8 @@ function App() {
       <Header />
       <Lowerheader />
       <AmCarousel />
-    </>
+      <Category/>
+      </>
   )
 }
 
