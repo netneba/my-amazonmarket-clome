@@ -1,34 +1,37 @@
-import React from 'react'
-import styles from './Header.module.css'
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import React from "react";
+import { Link } from "react-router-dom";
+import styles from "./Header.module.css";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 
 const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.topBar}>
         <div className={styles.logoDelivery}></div>
-        {/* Logo */}
-        <div className={styles.logoDelivery}>
-        <div className={styles.logo}>
-          <a href="/">
-            <img
-              src="https://pngimg.com/uploads/amazon/amazon_PNG25.png"
-              alt="amazon logo"
-            />
-          </a>
-        </div>
 
-        {/* Delivery */}
-        <div className={styles.delivery}>
-          <LocationOnOutlinedIcon fontSize="small" />
-          <div>
-            <p>Delivery</p>
-            <span>USA</span>
+        {/* Logo + Delivery */}
+        <div className={styles.logoDelivery}>
+          <div className={styles.logo}>
+            <Link to="/">
+              <img
+                src="https://pngimg.com/uploads/amazon/amazon_PNG25.png"
+                alt="amazon logo"
+              />
+            </Link>
+          </div>
+
+          {/* Delivery */}
+          <div className={styles.delivery}>
+            <LocationOnOutlinedIcon fontSize="small" />
+            <div>
+              <p>Delivery</p>
+              <span>USA</span>
+            </div>
           </div>
         </div>
-</div>
+
         {/* Search */}
         <div className={styles.search}>
           <select>
@@ -55,27 +58,27 @@ const Header = () => {
           </div>
 
           {/* Account */}
-          <a href="/" className={styles.account}>
+          <Link to="/login" className={styles.account}>
             Hello, Sign in
             <br />
             <strong>Account & Lists</strong>
-          </a>
+          </Link>
 
           {/* Orders */}
-          <a href="/" className={styles.orders}>
+          <Link to="/order" className={styles.orders}>
             Returns
             <br />
             <strong>& Orders</strong>
-          </a>
+          </Link>
 
           {/* Cart */}
-          <a href="/" className={styles.cart}>
+          <Link to="/cart" className={styles.cart}>
             <AddShoppingCartOutlinedIcon />
-          </a>
+          </Link>
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

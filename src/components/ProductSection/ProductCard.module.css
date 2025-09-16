@@ -1,0 +1,51 @@
+.card {
+  max-width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  overflow: hidden;
+  background: #fff;
+  margin: 0 auto;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background: #fff;
+}
+
+.title {
+  font-weight: 600;
+  margin: 12px 0;
+  height: 48px;
+  overflow: hidden;
+}
+
+.rating {
+  margin: 8px 0;
+}
+
+.price {
+  color: #007185;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+/* Button hidden by default */
+.buttonWrapper {
+  margin: 12px 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show button on card hover */
+.card:hover .buttonWrapper {
+  opacity: 1;
+}
