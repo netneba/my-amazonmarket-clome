@@ -1,0 +1,41 @@
+.title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.productsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.productTitle {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.price {
+  font-weight: bold;
+  color: #333;
+}

@@ -13,18 +13,20 @@ const ProductSection = () => {
   }, []);
 
   return (
-    <Grid container spacing={3} justifyContent="center" sx={{ p: 2 }}>
-      {products.map((p) => (
-        <Grid item key={p.id} xs={12} sm={6} md={4} lg={3}>
-          <ProductCard
-            title={p.title}
-            price={p.price}
-            rating={p.rating?.rate || 0}
-            image={p.image}
-          />
-        </Grid>
-      ))}
+    <Grid container justifyContent="center" spacing={2}>
+  {products.map((p) => (
+    <Grid key={p.id} item xs={12} sm={6} md={4} lg={3}>
+      <ProductCard
+        title={p.title}
+        price={p.price}
+        rating={p.rating?.rate || 0}
+        image={p.image}
+      />
     </Grid>
+  ))}
+</Grid>
+
+
   );
 };
 

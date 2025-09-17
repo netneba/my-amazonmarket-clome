@@ -8,13 +8,11 @@ const Category = () => {
   return (
     <div className={styles.container}>
       {catgoriesData.map((cat) => (
-        <CategoryCard
-          key={cat.id}
-          title={cat.title}
-          image={cat.image}
-          link={cat.link}
+        <CategoryCard 
+        key={cat.id}
+        data={cat}
         />
-      ))}
+    ))}
     </div>
   );
 };
