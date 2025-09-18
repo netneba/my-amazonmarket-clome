@@ -6,13 +6,13 @@ import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import Layout from "../../Layout/Layout";
 import styles from "./ProductDetail.module.css";
 import DotLoader from "../../DotLoader/DotLoader";
-import { useCart } from "../../Utility/CartContext.jsx"; // ✅ add context
+import { useCart } from "../../Utility/CartContext.jsx"; 
 import { ACTIONS } from "../../Utility/cartReducer.jsx";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { dispatch } = useCart(); // ✅ get dispatch from context
+  const { dispatch } = useCart(); 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
 

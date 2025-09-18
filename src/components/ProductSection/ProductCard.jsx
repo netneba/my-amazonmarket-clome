@@ -12,8 +12,8 @@ const ProductCard = ({ id, title, price, rating, image }) => {
   const { dispatch } = useCart();
 
   const handleAddToCart = (e) => {
-    e.stopPropagation(); // Stop Link click
-    e.preventDefault();  // Prevent navigation
+    e.stopPropagation(); 
+    e.preventDefault();  
     const product = { id, title, price, image };
     dispatch({ type: ACTIONS.ADD_TO_CART, payload: product });
   };

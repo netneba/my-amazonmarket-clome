@@ -15,7 +15,7 @@ const CategoryPage = () => {
     const [loading, setLoading] = useState(false);
     const { categoryName } = useParams();
     const { dispatch } = useCart();
-    const [hovered, setHovered] = useState(null); // Track hovered product id
+    const [hovered, setHovered] = useState(null); 
 
     useEffect(() => {
         setLoading(true);

@@ -1,0 +1,46 @@
+/* PaymentPage.module.css */
+
+.paymentContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 5px;
+  background-color: #fafafa;
+}
+
+.summary {
+  padding: 20px;
+  border-top: 2px solid #ddd;
+  text-align: right;
+}
+
+.summary h2 {
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #111;
+}
