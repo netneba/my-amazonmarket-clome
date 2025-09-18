@@ -6,6 +6,7 @@ import Cart from './components/Pages/Cart/Cart';
 import Order from './components/Pages/Order/Order';
 import Login from './components/Pages/Auth/Login';
 import CategoryPage from './components/Pages/CategoryPage/CategoryPage';
+import ProductDetail from './components/Pages/ProductDetailPage/ProductDetail';
 
 const Routing = () => {
   return (
@@ -15,6 +16,7 @@ const Routing = () => {
         <Route path='/cart' element={<Cart />} />
         <Route path='/order' element={<Order />} />
         <Route path="/category/:categoryName" element={<CategoryPage />}/>
+        <Route path="/product/:id" element={<ProductDetail />} />
 
         <Route path='/login' element={<Login />} />
       </Routes>

@@ -1,16 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./Header.module.css";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+import { useCart } from "../Utility/CartContext";
+import styles from "./Header.module.css";
 
 const Header = () => {
+  const { state } = useCart();
+  const totalItems = state?.cartItems?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+
   return (
     <header className={styles.header}>
       <div className={styles.topBar}>
-        <div className={styles.logoDelivery}></div>
-
         {/* Logo + Delivery */}
         <div className={styles.logoDelivery}>
           <div className={styles.logo}>
@@ -21,8 +23,6 @@ const Header = () => {
               />
             </Link>
           </div>
-
-          {/* Delivery */}
           <div className={styles.delivery}>
             <LocationOnOutlinedIcon fontSize="small" />
             <div>
@@ -45,7 +45,6 @@ const Header = () => {
 
         {/* Right side */}
         <div className={styles.right}>
-          {/* Language */}
           <div className={styles.lang}>
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png"
@@ -57,14 +56,12 @@ const Header = () => {
             </select>
           </div>
 
-          {/* Account */}
           <Link to="/login" className={styles.account}>
             Hello, Sign in
             <br />
             <strong>Account & Lists</strong>
           </Link>
 
-          {/* Orders */}
           <Link to="/order" className={styles.orders}>
             Returns
             <br />
@@ -74,6 +71,7 @@ const Header = () => {
           {/* Cart */}
           <Link to="/cart" className={styles.cart}>
             <AddShoppingCartOutlinedIcon />
+            <span className={styles.cartCount}>{totalItems}</span>
           </Link>
         </div>
       </div>

@@ -8,6 +8,7 @@
   margin: 0 auto;
   position: relative;
   transition: transform 0.2s ease;
+  margin-top: 50px;
 }
 
 .card:hover {
@@ -26,6 +27,13 @@
   margin: 12px 0;
   height: 48px;
   overflow: hidden;
+}
+.link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .rating {
@@ -49,3 +57,9 @@
 .card:hover .buttonWrapper {
   opacity: 1;
 }
+
+
+
+
+
+

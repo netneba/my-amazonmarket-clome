@@ -1,8 +1,8 @@
-// src/components/Category.jsx
 import React from "react";
 import { catgoriesData } from "./catdata";
 import CategoryCard from "./CategoryCard";
 import styles from "./Category.module.css";
+import Loader from "../DotLoader/DotLoader.jsx";
 
 const Category = () => {
   return (

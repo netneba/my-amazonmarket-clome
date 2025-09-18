@@ -1,0 +1,89 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.imageWrapper {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.imageWrapper img {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.infoWrapper {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  color: #d32f2f;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.category {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ratingWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: 10px;
+}
+
+.ratingWrapper span {
+  margin-left: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Circular back button */
+.backButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #111;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}

@@ -17,6 +17,7 @@ const ProductSection = () => {
   {products.map((p) => (
     <Grid key={p.id} item xs={12} sm={6} md={4} lg={3}>
       <ProductCard
+        id={p.id}
         title={p.title}
         price={p.price}
         rating={p.rating?.rate || 0}
