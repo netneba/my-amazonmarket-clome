@@ -4,7 +4,7 @@ import {
 } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { carouselData } from "./data"; 
-import styles from "./Carousel.module.css";
+import styles from "./carousel.module.css";
 
 const AmCarousel = () => {
   return (
