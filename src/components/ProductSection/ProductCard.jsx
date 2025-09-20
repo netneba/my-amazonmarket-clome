@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Rating, Button } from "@mui/material";
 import CurrencyFormatter from "./CurrencyFormatter";
@@ -5,17 +6,23 @@ import styles from "./ProductCard.module.css";
 import { Link } from "react-router-dom";
 import DotLoader from "../DotLoader/DotLoader";
 import { useCart } from "../Utility/CartContext";
-import { ACTIONS } from "../Utility/cartReducer";
+import { ACTIONS } from "../Utility/actions";
 
 const ProductCard = ({ id, title, price, rating, image }) => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = useCart();
 
   const handleAddToCart = (e) => {
-    e.stopPropagation(); 
-    e.preventDefault();  
+    e.stopPropagation();
+    e.preventDefault();
     const product = { id, title, price, image };
     dispatch({ type: ACTIONS.ADD_TO_CART, payload: product });
+
+    // mark item selected by default
+    dispatch({
+      type: ACTIONS.SELECT_ITEMS,
+      payload: { [product.id]: true },
+    });
   };
 
   return loading ? (
@@ -24,17 +31,11 @@ const ProductCard = ({ id, title, price, rating, image }) => {
     </div>
   ) : (
     <div className={styles.card}>
-      {/* Card Link */}
       <Link to={`/product/${id}`} className={styles.link}>
-        {/* Image */}
         <div className={styles.imageWrapper}>
           <img src={image} alt={title} />
         </div>
-
-        {/* Title */}
         <div className={styles.title}>{title}</div>
-
-        {/* Rating */}
         <div className={styles.rating}>
           <Rating
             value={typeof rating === "number" ? rating : rating?.rate || 0}
@@ -42,14 +43,11 @@ const ProductCard = ({ id, title, price, rating, image }) => {
             readOnly
           />
         </div>
-
-        {/* Price */}
         <div className={styles.price}>
           <CurrencyFormatter value={price} />
         </div>
       </Link>
 
-     
       <div className={styles.buttonWrapper}>
         <Button
           variant="contained"

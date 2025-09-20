@@ -53,7 +53,7 @@
   background: #37475a;
 }
 
-/* ✅ Responsive styles */
+/* Responsive styles */
 @media (max-width: 768px) {
   .menu {
     display: none;              

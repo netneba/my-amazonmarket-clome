@@ -5,6 +5,7 @@ const CartContext = createContext();
 
 const initialState = {
   cartItems: [],
+  selectedItems: {},
 };
 
 export const CartProvider = ({ children }) => {

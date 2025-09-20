@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useCart } from "../../Utility/CartContext";
-import { ACTIONS } from "../../Utility/cartReducer";
+import { ACTIONS } from "../../Utility/actions";
 import Layout from "../../Layout/Layout";
 import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import styles from "./CartPage.module.css";
@@ -8,22 +8,23 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  const { state = { cartItems: [] }, dispatch } = useCart();
-  const { cartItems } = state;
+  const { state = { cartItems: [], selectedItems: {} }, dispatch } = useCart();
+  const { cartItems, selectedItems } = state;
   const navigate = useNavigate();
-
-  const [selectedItems, setSelectedItems] = useState({});
 
   useEffect(() => {
     const initialSelected = cartItems.reduce(
       (acc, item) => ({ ...acc, [item.id]: true }),
       {}
     );
-    setSelectedItems(initialSelected);
-  }, [cartItems]);
+    dispatch({ type: ACTIONS.SELECT_ITEMS, payload: initialSelected });
+  }, [cartItems, dispatch]);
 
   const handleSelect = (id) =>
-    setSelectedItems((prev) => ({ ...prev, [id]: !prev[id] }));
+    dispatch({
+      type: ACTIONS.SELECT_ITEMS,
+      payload: { ...selectedItems, [id]: !selectedItems[id] },
+    });
 
   const handleIncrease = (id) =>
     dispatch({ type: ACTIONS.INCREASE_QUANTITY, payload: id });
@@ -41,6 +42,10 @@ const CartPage = () => {
       }
     });
   };
+
+  // const handleClearCart = () => {
+  //   dispatch({ type: ACTIONS.REMOVE_ALL_CART });
+  // };
 
   const totalPrice = cartItems.reduce(
     (acc, item) => (selectedItems[item.id] ? acc + item.price * item.quantity : acc),
@@ -67,29 +72,24 @@ const CartPage = () => {
           <div className={styles.cartContainer}>
             {cartItems.map((item) => (
               <div key={item.id} className={styles.cartItem}>
-                {/* Checkbox */}
                 <input
                   type="checkbox"
                   checked={selectedItems[item.id] || false}
                   onChange={() => handleSelect(item.id)}
                 />
 
-                {/* Product Image */}
                 <img src={item.image} alt={item.title} className={styles.image} />
 
-                {/* Info */}
                 <div className={styles.info}>
                   <h3>{item.title}</h3>
                   <p>Price: <CurrencyFormatter value={item.price} /></p>
 
-                  {/* Quantity */}
                   <div className={styles.quantity}>
                     <Button onClick={() => handleDecrease(item.id)}>-</Button>
                     <span>{item.quantity}</span>
                     <Button onClick={() => handleIncrease(item.id)}>+</Button>
                   </div>
 
-                  {/* Remove button under quantity */}
                   <Button
                     color="error"
                     variant="outlined"
@@ -101,18 +101,24 @@ const CartPage = () => {
               </div>
             ))}
 
-            {/* Total, Checkout, Remove Selected at bottom */}
             <div className={styles.bottomActions}>
               <Button
                 color="error"
                 variant="contained"
                 onClick={handleRemoveSelected}
-                disabled={
-                  Object.values(selectedItems).filter((v) => v).length === 0
-                }
+                disabled={Object.values(selectedItems).filter((v) => v).length === 0}
               >
                 Remove Selected
               </Button>
+
+              {/* <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleClearCart}
+                sx={{ marginLeft: "10px" }}
+              >
+                Clear Cart
+              </Button> */}
 
               <div className={styles.total}>
                 <h2>Total: <CurrencyFormatter value={totalPrice} /></h2>

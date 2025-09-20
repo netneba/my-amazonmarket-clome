@@ -7,7 +7,7 @@ import Layout from "../../Layout/Layout";
 import styles from "./ProductDetail.module.css";
 import DotLoader from "../../DotLoader/DotLoader";
 import { useCart } from "../../Utility/CartContext.jsx"; 
-import { ACTIONS } from "../../Utility/cartReducer.jsx";
+import { ACTIONS } from "../../Utility/actions.js";
 
 const ProductDetail = () => {
   const { id } = useParams();

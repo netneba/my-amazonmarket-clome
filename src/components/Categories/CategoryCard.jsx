@@ -1,19 +1,19 @@
 import React from "react";
 import styles from "./CategoryCard.module.css";
 import { Link } from "react-router-dom";
-import { useCart } from "../Utility/CartContext.jsx"; // ✅ import cart context
-import { ACTIONS } from "../Utility/cartReducer.jsx";
+import { useCart } from "../Utility/CartContext";
+import { ACTIONS } from "../Utility/actions";
 import { Button } from "@mui/material";
 
 const CategoryCard = ({ data }) => {
-  const { dispatch } = useCart(); // get dispatch from context
+  const { dispatch } = useCart();
 
   const handleAddToCart = (e) => {
-    e.preventDefault(); // prevent link navigation if needed
+    e.preventDefault();
     const product = {
-      id: data?.id || data?.title, // fallback if id not available
+      id: data?.id || data?.title,
       title: data?.title,
-      price: data?.price || 0, // if you have a price field
+      price: data?.price || 0,
       image: data?.image,
     };
     dispatch({ type: ACTIONS.ADD_TO_CART, payload: product });
@@ -30,8 +30,7 @@ const CategoryCard = ({ data }) => {
         Shop now
       </Link>
 
-      {/* Optional Add to Cart button */}
-      {data?.price && ( // only show if price exists
+      {data?.price && (
         <Button
           variant="contained"
           sx={{
