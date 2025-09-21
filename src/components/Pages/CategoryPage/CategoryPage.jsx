@@ -8,8 +8,9 @@ import { ACTIONS } from "../../Utility/actions";
 import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import DotLoader from "../../DotLoader/DotLoader";
 import styles from "./CategoryPage.module.css";
+import { endPoint } from "../../../Api/endPoint";
 
-const endPoint = "https://fakestoreapi.com";
+
 
 const CategoryPage = () => {
   const { categoryName } = useParams();

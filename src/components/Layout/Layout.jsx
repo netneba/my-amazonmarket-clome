@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     <div>
       <Header />
       <Lowerheader />
-      <main>{children}</main> {/* Wrap children in <main> for semantics */}
+      <main>{children}</main> 
     </div>
   );
 };
