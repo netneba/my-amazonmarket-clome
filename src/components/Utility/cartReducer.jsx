@@ -1,5 +1,9 @@
 import { ACTIONS } from "./actions";
 
+export const initialState = {
+  cartItems: [],
+  selectedItems: {},
+};
 export const cartReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.ADD_TO_CART: {

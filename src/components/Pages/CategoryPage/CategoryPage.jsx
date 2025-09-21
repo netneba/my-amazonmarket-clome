@@ -9,6 +9,7 @@ import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import DotLoader from "../../DotLoader/DotLoader";
 import styles from "./CategoryPage.module.css";
 import { endPoint } from "../../../Api/endPoint";
+import { Link } from "react-router-dom";
 
 
 
@@ -26,6 +27,8 @@ const CategoryPage = () => {
         const res = await axios.get(
           `${endPoint}/products/category/${encodeURIComponent(categoryName)}`
         );
+        // console.log(res);
+        // console.log( res.data);
         setProducts(res.data);
       } catch (err) {
         console.error(err);
@@ -68,12 +71,13 @@ const CategoryPage = () => {
               onMouseEnter={() => setHovered(product.id)}
               onMouseLeave={() => setHovered(null)}
             >
+                <Link to={`/product/${product.id}`} className={styles.link}>
               <img
                 src={product.image}
                 alt={product.title}
                 className={styles.image}
               />
-              <h3 className={styles.productTitle}>{product.title}</h3>
+              <h3 className={styles.productTitle}>{product.title}</h3></Link>
               <p className={styles.price}>
                 <CurrencyFormatter value={product.price} />
               </p>
