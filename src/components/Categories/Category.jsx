@@ -1,5 +1,5 @@
 import React from "react";
-import { catgoriesData } from "./catData";
+import { catgoriesData } from "./catdata";
 import CategoryCard from "./CategoryCard";
 import styles from "./Category.module.css";
 const Category = () => {
