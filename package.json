@@ -8,7 +8,6 @@
   
   "type": "module",
   
-  
   "scripts": {
   
     
@@ -25,6 +24,8 @@
   
     
   "deploy": "gh-pages -d dist",
+  
+    
   "postbuild": "cp dist/index.html dist/404.html"
   
   },
@@ -48,6 +49,9 @@
   
     
   "carousel": "^0.0.3",
+  
+    
+  "firebase": "^12.3.0",
   
     
   "numeral": "^2.0.6",

@@ -6,9 +6,17 @@ import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutl
 import { useCart } from "../Utility/CartContext";
 import styles from "./Header.module.css";
 
+
+
 const Header = () => {
-  const { state } = useCart();
+  const { state, dispatch } = useCart();
+  const user = state.user; 
   const totalItems = state?.cartItems?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+
+  const handleLogout = () => {
+    dispatch({ type: "CLEAR_USER" });
+    
+  };
 
   return (
     <header className={styles.header}>
@@ -56,11 +64,20 @@ const Header = () => {
             </select>
           </div>
 
-          <Link to="/login" className={styles.account}>
-            Hello, Sign in
-            <br />
-            <strong>Account & Lists</strong>
-          </Link>
+          {/* Account */}
+          {user ? (
+            <div className={styles.account}>
+              Hello, {user.email.split("@")[0]}
+              <br />
+              <strong onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</strong>
+            </div>
+          ) : (
+            <Link to="/auth" className={styles.account}>
+              Hello, Sign in
+              <br />
+              <strong>To Account</strong>
+            </Link>
+          )}
 
           <Link to="/order" className={styles.orders}>
             Returns

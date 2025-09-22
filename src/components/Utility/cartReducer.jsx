@@ -3,6 +3,7 @@ import { ACTIONS } from "./actions";
 export const initialState = {
   cartItems: [],
   selectedItems: {},
+   user: null,
 };
 export const cartReducer = (state, action) => {
   switch (action.type) {
@@ -58,6 +59,18 @@ export const cartReducer = (state, action) => {
       return {
         ...state,
         selectedItems: action.payload,
+      };
+
+       case ACTIONS.SET_USER:
+      return {
+        ...state,
+        user: action.payload,   // payload = user object from Firebase
+      };
+
+    case ACTIONS.CLEAR_USER:
+      return {
+        ...state,
+        user: null,
       };
 
     default:

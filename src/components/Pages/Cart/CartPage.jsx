@@ -5,12 +5,13 @@ import Layout from "../../Layout/Layout";
 import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import styles from "./CartPage.module.css";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation  } from "react-router-dom";
 
 const CartPage = () => {
-  const { state = { cartItems: [], selectedItems: {} }, dispatch } = useCart();
-  const { cartItems, selectedItems } = state;
+  const { state = { cartItems: [], selectedItems: {},user: null }, dispatch } = useCart();
+  const { cartItems, selectedItems,user} = state;
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const initialSelected = cartItems.reduce(
@@ -52,13 +53,17 @@ const CartPage = () => {
     0
   );
 
-  const handleCheckout = () => {
-    navigate("/payment", {
-      state: {
-        selectedItems: cartItems.filter((item) => selectedItems[item.id]),
-        totalPrice,
-      },
-    });
+ const handleCheckout = () => {
+    if (!user) {
+      navigate("/auth", { state: { redirectTo: location.pathname } });
+    } else {
+      navigate("/payment", {
+        state: {
+          selectedItems: cartItems.filter((item) => selectedItems[item.id]),
+          totalPrice,
+        },
+      });
+    }
   };
 
   return (
