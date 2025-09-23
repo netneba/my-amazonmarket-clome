@@ -1,46 +1,52 @@
-/* PaymentPage.module.css */
-
 .paymentContainer {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 50px auto;
   padding: 20px;
 }
 
 .itemsList {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
   margin-bottom: 20px;
 }
 
 .item {
   display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #fff;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
 
 .image {
   width: 80px;
   height: 80px;
-  object-fit: contain;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  padding: 5px;
-  background-color: #fafafa;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.info h3 {
+  margin: 0;
 }
 
 .summary {
   padding: 20px;
-  border-top: 2px solid #ddd;
-  text-align: right;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
-.summary h2 {
+.cardContainer {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   margin-bottom: 15px;
-  font-size: 1.3rem;
-  color: #111;
+  background-color: white;
+}
+
+.cardElement {
+  padding: 10px;
+}
+
+.message {
+  margin-top: 10px;
+  font-weight: bold;
+  color: green;
 }
