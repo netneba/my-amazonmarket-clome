@@ -7,11 +7,14 @@ import { Button } from "@mui/material";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import styles from "./PaymentPage.module.css";
+import { db } from "../../Utility/firebase";
+import { GridLoader } from "react-spinners";
+import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 // Stripe publishable key
 const stripePromise = loadStripe("pk_test_51SAL7e8snvUUjWBjZuGttigOssWwB8qOmhFWGlrVUPYapX6lOwx9UDcEG12Ku9WuGYGppkfJDOnUKKOpxtIlyPOz00RDygD0GN");
 
-const CheckoutForm = ({ totalPrice, userName }) => {
+const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -23,18 +26,36 @@ const CheckoutForm = ({ totalPrice, userName }) => {
     setMessage("");
 
     try {
-      const res = await fetch(`http://localhost:4242/payment/create?total=${Math.round(totalPrice * 100)}`, {
-        method: "POST",
-      });
+      const res = await fetch(
+        `http://localhost:4242/payment/create?total=${Math.round(totalPrice * 100)}`,
+        { method: "POST" }
+      );
       const data = await res.json();
       if (!data.clientSecret) throw new Error("PaymentIntent not returned");
 
       const { paymentIntent, error } = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: { card: elements.getElement(CardElement), billing_details: { name: userName } },
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: { name: userName || "Guest" },
+        },
       });
 
-      if (error) setMessage("Payment failed: " + error.message);
-      else if (paymentIntent.status === "succeeded") setMessage(`Payment successful! Total: $${paymentIntent.amount / 100}`);
+      if (error) {
+        setMessage("Payment failed: " + error.message);
+      } else if (paymentIntent.status === "succeeded") {
+        setMessage(`Payment successful! Total: $${paymentIntent.amount / 100}`);
+
+        // Save order to Firestore
+        await setDoc(
+          doc(collection(db, "users", user?.uid, "orders"), paymentIntent.id),
+          {
+            items: selectedItems,
+            amount: paymentIntent.amount / 100,
+            created: serverTimestamp(),
+            status: "paid",
+          }
+        );
+      }
     } catch (err) {
       setMessage("Payment error: " + err.message);
     }
@@ -44,18 +65,17 @@ const CheckoutForm = ({ totalPrice, userName }) => {
 
   return (
     <div className={styles.summary}>
-      {userName && <p>Hello, {userName}! Complete your payment below.</p>}
       <h2>Total: <CurrencyFormatter value={totalPrice} /></h2>
       <div className={styles.cardContainer}>
         <CardElement className={styles.cardElement} />
       </div>
       <Button
         variant="contained"
-        sx={{ backgroundColor: "#f0c14b", color: "#111", marginTop: "10px" }}
+        sx={{ backgroundColor: "#f0c14b", color: "#111", marginTop: "10px", minHeight: "40px" }}
         onClick={handlePayment}
         disabled={loading || !stripe}
       >
-        {loading ? "Processing..." : "Pay Now"}
+        {loading ? <GridLoader size={8} color="#111" /> : "Pay Now"}
       </Button>
       {message && <p className={styles.message}>{message}</p>}
     </div>
@@ -71,18 +91,16 @@ const PaymentPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    // 1. Get user from context
     const user = state.user;
     if (!user || !user.email) {
-      navigate("/auth", { state: { redirectTo: "/payment" } });
+      navigate("/auth", { state: {message: "Please login to pay", 
+ redirectTo: "/payment" } });
       return;
     }
 
-    // 2. Extract first name from email
     const emailName = user.email.split("@")[0].split(".")[0];
     setUserName(emailName.charAt(0).toUpperCase() + emailName.slice(1));
 
-    // 3. Get selected items & total from CartPage state
     const items = location.state?.selectedItems || [];
     const total = location.state?.totalPrice || 0;
 
@@ -95,7 +113,7 @@ const PaymentPage = () => {
     setTotalPrice(total);
   }, [state.user, navigate, location.state]);
 
-  if (!selectedItems || selectedItems.length === 0) return null;
+  if (!selectedItems.length) return null;
 
   return (
     <Layout>
@@ -116,10 +134,19 @@ const PaymentPage = () => {
         </div>
 
         <Elements stripe={stripePromise}>
-          <CheckoutForm totalPrice={totalPrice} userName={userName} />
+          <CheckoutForm
+            totalPrice={totalPrice}
+            userName={userName}
+            user={state.user}
+            selectedItems={selectedItems}
+          />
         </Elements>
 
-        <Button variant="outlined" onClick={() => navigate("/cart")} sx={{ marginTop: "10px" }}>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/cart")}
+          sx={{ marginTop: "10px" }}
+        >
           Back to Cart
         </Button>
       </div>

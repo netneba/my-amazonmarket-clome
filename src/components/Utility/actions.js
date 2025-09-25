@@ -7,4 +7,8 @@ export const ACTIONS = {
   SELECT_ITEMS: "SELECT_ITEMS",
   SET_USER: "SET_USER",          
   CLEAR_USER: "CLEAR_USER",    
+    ADD_ORDER: "ADD_ORDER", 
+    LOGOUT_USER:"LOGOUT_USER",
+    
+
 };

@@ -9,7 +9,7 @@ import styles from "./Header.module.css";
 
 
 const Header = () => {
-  const { state, dispatch } = useCart();
+  const { state, dispatch ,logout} = useCart();
   const user = state.user; 
   const totalItems = state?.cartItems?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
@@ -65,18 +65,20 @@ const Header = () => {
           </div>
 
           {/* Account */}
-          {user ? (
-            <div className={styles.account}>
-              Hello, {user.email.split("@")[0]}
-              <br />
-              <strong onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</strong>
-            </div>
-          ) : (
-            <Link to="/auth" className={styles.account}>
-              Hello, Sign in
-              <br />
-              <strong>To Account</strong>
-            </Link>
+         {user ? (
+        <div className={styles.account}>
+          Hello, {user.email.split("@")[0]}
+          <br />
+          <strong onClick={logout} style={{ cursor: "pointer" }}>
+            Logout
+          </strong>
+        </div>
+      ) : (
+        <Link to="/auth" className={styles.account}>
+          Hello, Sign in
+          <br />
+          <strong>To Account</strong>
+        </Link>
           )}
 
           <Link to="/order" className={styles.orders}>

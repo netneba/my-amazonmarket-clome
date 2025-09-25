@@ -5,12 +5,13 @@ import Layout from "../../Layout/Layout";
 import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import styles from "./CartPage.module.css";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CartPage = () => {
-  const { state, dispatch } = useCart();
+  const { state = { cartItems: [], selectedItems: {}, user: null }, dispatch } = useCart();
   const { cartItems, selectedItems, user } = state;
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Initially select all items
   useEffect(() => {
@@ -27,12 +28,20 @@ const CartPage = () => {
       payload: { ...selectedItems, [id]: !selectedItems[id] },
     });
 
-  const handleIncrease = (id) => dispatch({ type: ACTIONS.INCREASE_QUANTITY, payload: id });
-  const handleDecrease = (id) => dispatch({ type: ACTIONS.DECREASE_QUANTITY, payload: id });
-  const handleRemoveItem = (id) => dispatch({ type: ACTIONS.REMOVE_FROM_CART, payload: id });
+  const handleIncrease = (id) =>
+    dispatch({ type: ACTIONS.INCREASE_QUANTITY, payload: id });
+
+  const handleDecrease = (id) =>
+    dispatch({ type: ACTIONS.DECREASE_QUANTITY, payload: id });
+
+  const handleRemoveItem = (id) =>
+    dispatch({ type: ACTIONS.REMOVE_FROM_CART, payload: id });
+
   const handleRemoveSelected = () => {
     Object.keys(selectedItems).forEach((id) => {
-      if (selectedItems[id]) dispatch({ type: ACTIONS.REMOVE_FROM_CART, payload: Number(id) });
+      if (selectedItems[id]) {
+        dispatch({ type: ACTIONS.REMOVE_FROM_CART, payload: Number(id) });
+      }
     });
   };
 
@@ -42,24 +51,28 @@ const CartPage = () => {
   );
 
   const handleCheckout = () => {
-    if (!user) {
-      // Redirect to Auth and pass current path for return
-      navigate("/auth", { state: { redirectTo: "/payment" } });
-      return;
-    }
-
     const selected = cartItems.filter((item) => selectedItems[item.id]);
-    if (selected.length === 0) {
-      alert("Please select at least one item to proceed.");
+
+    if (!selected.length) {
+      alert("Please select at least one item to checkout");
       return;
     }
 
-    // Navigate to PaymentPage with selected items & total
+    if (!user) {
+      navigate("/auth", {
+        state: {
+          message: "Please login to pay",
+          redirectTo: "/payment",
+          selectedItems: selected,
+          totalPrice,
+        },
+      });
+      return;
+    }
+
+    // If user is logged in, go directly to payment
     navigate("/payment", {
-      state: {
-        selectedItems: selected,
-        totalPrice: totalPrice,
-      },
+      state: { selectedItems: selected, totalPrice },
     });
   };
 
@@ -78,16 +91,24 @@ const CartPage = () => {
                 checked={selectedItems[item.id] || false}
                 onChange={() => handleSelect(item.id)}
               />
+
               <img src={item.image} alt={item.title} className={styles.image} />
+
               <div className={styles.info}>
                 <h3>{item.title}</h3>
                 <p>Price: <CurrencyFormatter value={item.price} /></p>
+
                 <div className={styles.quantity}>
                   <Button onClick={() => handleDecrease(item.id)}>-</Button>
                   <span>{item.quantity}</span>
                   <Button onClick={() => handleIncrease(item.id)}>+</Button>
                 </div>
-                <Button color="error" variant="outlined" onClick={() => handleRemoveItem(item.id)}>
+
+                <Button
+                  color="error"
+                  variant="outlined"
+                  onClick={() => handleRemoveItem(item.id)}
+                >
                   Remove
                 </Button>
               </div>
@@ -99,7 +120,7 @@ const CartPage = () => {
               color="error"
               variant="contained"
               onClick={handleRemoveSelected}
-              disabled={Object.values(selectedItems).filter(Boolean).length === 0}
+              disabled={Object.values(selectedItems).filter((v) => v).length === 0}
             >
               Remove Selected
             </Button>

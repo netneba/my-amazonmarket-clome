@@ -15,15 +15,21 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false); 
-  const [loadingAction, setLoadingAction] = useState(""); 
+  const [loading, setLoading] = useState(false);
+  const [loadingAction, setLoadingAction] = useState("");
 
-  const { state, dispatch } = useCart();
+  const { dispatch } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
+  // 👇 extra redirectTo logic merged
+  const redirectTo = location.state?.redirectTo || "/";
+
   useEffect(() => {
-    if (location.state?.successMessage) {
+    // Display message from redirect
+    if (location.state?.message) {
+      setMessage(location.state.message);
+    } else if (location.state?.successMessage) {
       setMessage(location.state.successMessage);
     }
   }, [location.state]);
@@ -34,8 +40,8 @@ const Auth = () => {
     setMessage("");
 
     const action = e.nativeEvent.submitter.name;
-    setLoading(true);          
-    setLoadingAction(action);  
+    setLoading(true);
+    setLoadingAction(action);
 
     if (!email || !password) {
       setError("Please fill all fields");
@@ -46,7 +52,11 @@ const Auth = () => {
 
     try {
       if (action === "signup") {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
 
         dispatch({ type: ACTIONS.SET_USER, payload: user });
@@ -56,11 +66,15 @@ const Auth = () => {
 
         navigate("/signin", {
           state: {
-            successMessage: "created successfully! Please login",
-           }});
-       
+            successMessage: "Account created successfully! Please login",
+          },
+        });
       } else if (action === "signin") {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
 
         dispatch({ type: ACTIONS.SET_USER, payload: user });
@@ -68,7 +82,14 @@ const Auth = () => {
         setLoading(false);
         setLoadingAction("");
 
-        navigate(location.state?.redirectTo || "/"); 
+        // 👇 use redirectTo from ProtectedRoute
+        navigate(redirectTo, {
+          replace: true,
+          state: {
+            selectedItems: location.state?.selectedItems,
+            totalPrice: location.state?.totalPrice,
+          },
+        });
       }
     } catch (err) {
       setLoading(false);
@@ -92,7 +113,6 @@ const Auth = () => {
   };
 
   if (loading && !loadingAction) {
-   
     return (
       <div className={styles.pageLoader}>
         <DotLoader size={60} color="#36d7b7" loading={true} />
