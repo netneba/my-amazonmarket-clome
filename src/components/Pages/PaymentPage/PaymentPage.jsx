@@ -31,7 +31,7 @@ const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
     try {
       //  Create payment intent on server
       const res = await fetch(
-        `http://localhost:4242/payment/create?total=${Math.round(totalPrice * 100)}`,
+        ` https://my-market-backend-hw9t.onrender.com/payment/create?total=${Math.round(totalPrice * 100)}`,
         { method: "POST" }
       );
       const data = await res.json();
