@@ -9,8 +9,35 @@ export const initialState = {
 
 export const cartReducer = (state, action) => {
   switch (action.type) {
+
     case ACTIONS.ADD_TO_CART:
-      return { ...state, cartItems: [...state.cartItems, action.payload] };
+  const item = action.payload;
+  const exist = state.cartItems.find(i => i.id === item.id);
+
+  if (exist) {
+    return {
+      ...state,
+      cartItems: state.cartItems.map(i =>
+        i.id === item.id
+          ? { ...i, quantity: (i.quantity || 1) + 1 }
+          : i
+      ),
+    };
+  } else {
+    return {
+      ...state,
+      cartItems: [
+        ...state.cartItems,
+        {
+          ...item,
+          quantity: 1,
+          price: Number(item.price), 
+        },
+      ],
+    };
+  }
+
+ 
 
     case ACTIONS.REMOVE_FROM_CART:
       return { ...state, cartItems: state.cartItems.filter(item => item.id !== action.payload) };
@@ -44,6 +71,14 @@ export const cartReducer = (state, action) => {
 
     case ACTIONS.ADD_ORDER:
       return { ...state, orders: [...state.orders, action.payload] };
+
+      case ACTIONS.CLEAR_CART:
+  return {
+    ...state,
+    cartItems: [],
+    selectedItems: {},
+  };
+
 
     default:
       return state;

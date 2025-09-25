@@ -57,7 +57,7 @@ const OrderPage = () => {
             </p>
             <p>
               <strong>Total:</strong>{" "}
-              <CurrencyFormatter value={order.amount / 100} />
+              <CurrencyFormatter value={order.amount} />
             </p>
             <p>
               <strong>Items:</strong>

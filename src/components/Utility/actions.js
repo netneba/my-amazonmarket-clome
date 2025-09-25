@@ -9,6 +9,8 @@ export const ACTIONS = {
   CLEAR_USER: "CLEAR_USER",    
     ADD_ORDER: "ADD_ORDER", 
     LOGOUT_USER:"LOGOUT_USER",
+    CLEAR_CART:"CLEAR_CART"
+    
     
 
 };

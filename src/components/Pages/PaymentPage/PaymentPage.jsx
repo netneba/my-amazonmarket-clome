@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../Utility/CartContext";
+import { ACTIONS } from "../../Utility/actions";
 import Layout from "../../Layout/Layout";
 import CurrencyFormatter from "../../ProductSection/CurrencyFormatter";
 import { Button } from "@mui/material";
@@ -17,6 +18,8 @@ const stripePromise = loadStripe("pk_test_51SAL7e8snvUUjWBjZuGttigOssWwB8qOmhFWG
 const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { dispatch } = useCart(); 
+  const navigate = useNavigate(); 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -26,6 +29,7 @@ const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
     setMessage("");
 
     try {
+      //  Create payment intent on server
       const res = await fetch(
         `http://localhost:4242/payment/create?total=${Math.round(totalPrice * 100)}`,
         { method: "POST" }
@@ -33,6 +37,7 @@ const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
       const data = await res.json();
       if (!data.clientSecret) throw new Error("PaymentIntent not returned");
 
+      // 2 Confirm card payment
       const { paymentIntent, error } = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
@@ -55,6 +60,12 @@ const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
             status: "paid",
           }
         );
+
+        // Clear cart in context
+        dispatch({ type: ACTIONS.CLEAR_CART });
+
+        // Redirect to Orders page
+        navigate("/order");
       }
     } catch (err) {
       setMessage("Payment error: " + err.message);
@@ -93,8 +104,7 @@ const PaymentPage = () => {
   useEffect(() => {
     const user = state.user;
     if (!user || !user.email) {
-      navigate("/auth", { state: {message: "Please login to pay", 
- redirectTo: "/payment" } });
+      navigate("/auth", { state: { message: "Please login to pay", redirectTo: "/payment" } });
       return;
     }
 
@@ -109,7 +119,14 @@ const PaymentPage = () => {
       return;
     }
 
-    setSelectedItems(items);
+    // Ensure quantity and price are numbers
+    const sanitizedItems = items.map(item => ({
+      ...item,
+      quantity: item.quantity || 1,
+      price: Number(item.price) || 0
+    }));
+
+    setSelectedItems(sanitizedItems);
     setTotalPrice(total);
   }, [state.user, navigate, location.state]);
 
