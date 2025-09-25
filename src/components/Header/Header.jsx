@@ -2,9 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
+// import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutlined";
 import { useCart } from "../Utility/CartContext";
 import styles from "./Header.module.css";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 
 
@@ -89,7 +90,7 @@ const Header = () => {
 
           {/* Cart */}
           <Link to="/cart" className={styles.cart}>
-            <AddShoppingCartOutlinedIcon />
+            <ShoppingCartOutlinedIcon />
             <span className={styles.cartCount}>{totalItems}</span>
           </Link>
         </div>

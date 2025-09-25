@@ -37,7 +37,7 @@ const CheckoutForm = ({ totalPrice, userName, user, selectedItems }) => {
       const data = await res.json();
       if (!data.clientSecret) throw new Error("PaymentIntent not returned");
 
-      // 2 Confirm card payment
+      // Confirm card payment
       const { paymentIntent, error } = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
